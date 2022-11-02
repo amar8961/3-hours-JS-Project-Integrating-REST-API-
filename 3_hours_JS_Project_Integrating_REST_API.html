@@ -28,8 +28,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
 
     <script>
-        // Function for Show User Data On Screen
-        function showNewUserOnScreen(user) {
+      // Function for Show User Data On Screen
+      function showNewUserOnScreen(user) {
         const parentNode = document.getElementById("expenseTracker");
         const childHTML = `<li id=${user._id}> ${user.expenses} - ${user.description} - ${user.category}</li>`;
 
@@ -45,22 +45,48 @@
 
         // Lets store the users in the right format ->
         const obj = {
-            expenses,
-            description,
-            category,
+          expenses,
+          description,
+          category,
         };
 
         // add axios libraries'post' - Saving the user Details on Crud Crud
         axios
-          .post("https://crudcrud.com/api/33a34c77d37b40de94d7e07770318fad/taskData",obj).then((response) => {
+          .post(
+            "https://crudcrud.com/api/33a34c77d37b40de94d7e07770318fad/taskData",
+            obj
+          )
+          .then((response) => {
             showNewUserOnScreen(response.data);
             console.log(response);
           })
           .catch((err) => {
-            document.body.innerHTML = document.body.innerHTML + "<h4> Something went wrong </h4>";
+            document.body.innerHTML =
+              document.body.innerHTML + "<h4> Something went wrong </h4>";
             console.log(err);
           });
       }
+
+      // add axios libraries'get' - Get the saved User Details from crudcrud.com
+      window.addEventListener("DOMContentLoaded", () => {
+        axios
+          .get(
+            "https://crudcrud.com/api/33a34c77d37b40de94d7e07770318fad/taskData"
+          )
+          .then((response) => {
+            console.log(response);
+
+            for (var i = 0; i < response.data.length; i++) {
+              showNewUserOnScreen(response.data[i]);
+            }
+          })
+          .catch((err) => {
+            document.body.innerHTML =
+              document.body.innerHTML +
+              "<h4> Something went wrong in .get</h4>";
+            console.log(err);
+          });
+      });
     </script>
   </body>
 </html>
