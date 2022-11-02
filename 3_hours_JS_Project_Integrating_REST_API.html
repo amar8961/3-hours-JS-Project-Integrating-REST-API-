@@ -29,9 +29,12 @@
 
     <script>
       // Function for Show User Data On Screen
+      // update function showNewUserOnScreen(user) for Deleting the Data -> Add Delete Button
       function showNewUserOnScreen(user) {
         const parentNode = document.getElementById("expenseTracker");
-        const childHTML = `<li id=${user._id}> ${user.expenses} - ${user.description} - ${user.category}</li>`;
+        const childHTML = `<li id=${user._id}> ${user.expenses} - ${user.description} - ${user.category}
+                                 <button onclick=deleteUser('${user._id}')> Delete User </button>
+                           </li>`;
 
         parentNode.innerHTML = parentNode.innerHTML + childHTML;
       }
@@ -68,6 +71,7 @@
       }
 
       // add axios libraries'get' - Get the saved User Details from crudcrud.com
+      // Function for Get the Data from crudcrud.com
       window.addEventListener("DOMContentLoaded", () => {
         axios
           .get(
@@ -87,6 +91,34 @@
             console.log(err);
           });
       });
+
+      // Function for Deleting the Data of crudcrud.com
+      function deleteUser(userId) {
+        axios
+          .delete(
+            `https://crudcrud.com/api/33a34c77d37b40de94d7e07770318fad/taskData/${userId}`
+          )
+          .then((response) => {
+            console.log(response);
+            removeUserFromScreen(userId);
+          })
+          .catch((err) => {
+            document.body.innerHTML =
+              document.body.innerHTML +
+              "<h4> Something went wrong in .delete</h4>";
+            console.log(err);
+          });
+      }
+
+      // function for Deleting the Data form Screen
+      function removeUserFromScreen(userId) {
+        const parentNode = document.getElementById("expenseTracker");
+        const childNodeToBeDeleted = document.getElementById(userId);
+
+        if (childNodeToBeDeleted) {
+          parentNode.removeChild(childNodeToBeDeleted);
+        }
+      }
     </script>
   </body>
 </html>
