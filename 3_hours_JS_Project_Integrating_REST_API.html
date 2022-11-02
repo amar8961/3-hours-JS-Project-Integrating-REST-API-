@@ -8,6 +8,7 @@
   </head>
   <body>
     <h4>3 hours JS Project (Integrating REST API)</h4>
+    <h5>Integrate CRUD CRUD into the Expenses Tracker</h5>
     <form action="" onsubmit="saveToLocalStorage(event)">
       <label>Choose Expenses Amount</label>
       <input type="text" id="expenses" placeholder="Expenses Amount" />
@@ -21,7 +22,8 @@
         <option value="Movie">Movie</option>
       </select>
       <input type="submit" value="Add Expenses" />
-    </form>
+    </form><br>
+    <hr width="100%" size="5px" style="background-color: black" />
     <ul id="expenseTracker"></ul>
 
     <!-- add axios libraries -->
@@ -30,10 +32,12 @@
     <script>
       // Function for Show User Data On Screen
       // update function showNewUserOnScreen(user) for Deleting the Data -> Add Delete Button
+      // update function showNewUserOnScreen(user) for Editing the Data -> Add Edit Button
       function showNewUserOnScreen(user) {
         const parentNode = document.getElementById("expenseTracker");
         const childHTML = `<li id=${user._id}> ${user.expenses} - ${user.description} - ${user.category}
                                  <button onclick=deleteUser('${user._id}')> Delete User </button>
+                                 <button onclick=editUserDetails('${user.expenses}','${user.description}','${user.category}','${user._id}')> Edit </button>
                            </li>`;
 
         parentNode.innerHTML = parentNode.innerHTML + childHTML;
@@ -118,6 +122,16 @@
         if (childNodeToBeDeleted) {
           parentNode.removeChild(childNodeToBeDeleted);
         }
+      }
+
+      // Function for Editing the Data of crudcrud.com
+      function editUserDetails(expenses, description, category, userId) {
+        document.getElementById("expenses").value = expenses;
+        document.getElementById("description").value = description;
+        document.getElementById("category").value = category;
+
+        // for delete previous data after clicking on edit button
+        deleteUser(userId);
       }
     </script>
   </body>
